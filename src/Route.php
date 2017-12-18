@@ -47,7 +47,7 @@ class Route extends RoutAble implements RouteInterface
     /**
      * @var RouteGroupInterface[]
      */
-    protected $groups;
+    protected $groups = [];
 
     /**
      * @var string|null
@@ -185,7 +185,7 @@ class Route extends RoutAble implements RouteInterface
     public function prepare(ServerRequestInterface $request, array $arguments)
     {
         foreach ($arguments as $key => $argument) {
-            $this->setArgument($key, $arguments);
+            $this->setArgument($key, $argument);
         }
     }
 
