@@ -199,7 +199,9 @@ class Route extends RoutAble implements RouteInterface
         }
 
         foreach ($this->getGroups() as $group) {
-            $this->addMiddleware($group);
+            foreach ($group->getMiddleware() as $middleware) {
+                $this->addMiddleware($middleware);
+            }
         }
 
         $this->finalized = true;
