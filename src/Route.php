@@ -99,7 +99,7 @@ class Route extends RoutAble implements RouteInterface
                 );
             }
 
-            $this->groups[$key] = $groups;
+            $this->groups[$key] = $group;
         }
 
         $this->routeHandler = new RouteHandler();
