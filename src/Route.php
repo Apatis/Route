@@ -82,7 +82,7 @@ class Route extends RoutAble implements RouteInterface
     public function __construct(
         array $methods,
         string $pattern,
-        callable $callable,
+        $callable,
         array $groups = [],
         int $identifier = 0
     ) {
