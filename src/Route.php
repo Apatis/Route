@@ -265,7 +265,7 @@ class Route extends RoutAble implements RouteInterface
      *
      * @return callable
      */
-    public function getCallback() : callable
+    public function getCallback()
     {
         return $this->callback;
     }
