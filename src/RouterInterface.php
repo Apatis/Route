@@ -65,7 +65,7 @@ interface RouterInterface
      *
      * @return RouteGroupInterface
      */
-    public function pushGroup(string $pattern, callable $callable) : RouteGroupInterface;
+    public function pushGroup(string $pattern, $callable) : RouteGroupInterface;
 
     /**
      * Removes the last route group from the array
