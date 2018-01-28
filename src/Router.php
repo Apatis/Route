@@ -259,7 +259,7 @@ class Router implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function pushGroup(string $pattern, callable $callable) : RouteGroupInterface
+    public function pushGroup(string $pattern, $callable) : RouteGroupInterface
     {
         $group               = new RouteGroup($pattern, $callable);
         $this->routeGroups[] = $group;
