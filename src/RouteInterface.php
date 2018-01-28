@@ -25,123 +25,114 @@
 
 namespace Apatis\Route;
 
-use Psr\Http\Message\ResponseInterface;
+use FastRoute\Dispatcher;
+use FastRoute\RouteParser;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Interface RouteInterface
+ * Interface RouterInterface
  * @package Apatis\Route
  */
-interface RouteInterface extends RoutAbleInterface
+interface RouterInterface
 {
     /**
-     * RouteInterface constructor.
+     * Add route
      *
      * @param array $methods
      * @param string $pattern
      * @param callable $callable
-     * @param array $groups
-     * @param int $identifier
-     */
-    public function __construct(
-        array $methods,
-        string $pattern,
-        $callable,
-        array $groups = [],
-        int $identifier = 0
-    );
-
-    /**
-     * Set route name
-     *
-     * @param string $name
-     *
-     * @return static
-     */
-    public function setName(string $name) : RouteInterface;
-
-    /**
-     * Get route defined name
-     *
-     * @return string|null return string if route name has been set
-     */
-    public function getName();
-
-    /**
-     * Set argument
-     *
-     * @param string|float|int $name
-     * @param mixed $value
      *
      * @return RouteInterface
      */
-    public function setArgument($name, $value) : RouteInterface;
+    public function map(array $methods, string $pattern, $callable) : RouteInterface;
 
     /**
-     * Get argument by name
+     * Dispatch router for HTTP request
      *
-     * @param string|float|int $name
-     * @param null $default
+     * @param  ServerRequestInterface $request The current HTTP request object
      *
-     * @return mixed|null
-     */
-    public function getArgument($name, $default = null);
-
-    /**
-     * Get all arguments
-     *
-     * @param array $arguments
-     *
-     * @return static
-     */
-    public function setArguments(array $arguments) : RouteInterface;
-
-    /**
      * @return array
+     *
+     * @link   https://github.com/nikic/FastRoute/blob/master/src/Dispatcher.php
      */
-    public function getArguments() : array;
+    public function dispatch(ServerRequestInterface $request) : array;
 
     /**
-     * Get defined pattern
+     * Add a route group to the array
      *
-     * @return string
+     * @param string $pattern The group pattern
+     * @param callable $callable A group callable
+     *
+     * @return RouteGroupInterface
      */
-    public function getPattern() : string;
+    public function pushGroup(string $pattern, $callable) : RouteGroupInterface;
 
     /**
-     * Get route Identifier
+     * Removes the last route group from the array
      *
-     * @return int
+     * @return RouteGroupInterface|null
      */
-    public function getIdentifier() : int;
+    public function popGroup();
 
     /**
-     * Prepare Route process
+     * Get named route object
      *
-     * @param ServerRequestInterface $request
-     * @param array $arguments
+     * @param string $name Route name
      *
-     * @return mixed
+     * @return RouteInterface|null
      */
-    public function prepare(ServerRequestInterface $request, array $arguments);
+    public function getRouteByName(string $name);
 
     /**
-     * Run the route
+     * @param string $name
      *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     *
-     * @return ResponseInterface
+     * @return bool
      */
-    public function process(ServerRequestInterface $request, ResponseInterface $response) : ResponseInterface;
+    public function removeRouteByName(string $name) : bool;
 
     /**
-     * Invoke callable
+     * @param int $identifier
      *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     *
-     * @return ResponseInterface
+     * @return RouteInterface|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response) : ResponseInterface;
+    public function getRouteByIdentifier(int $identifier);
+
+    /**
+     * Get route collection
+     *
+     * @return RouteInterface[]
+     */
+    public function getRoutes() : array;
+
+    /**
+     * Set Route Dispatcher
+     *
+     * @param Dispatcher $dispatcher
+     *
+     * @return RouterInterface
+     */
+    public function setDispatcher(Dispatcher $dispatcher) : RouterInterface;
+
+    /**
+     * Get route Dispatcher
+     *
+     * @return Dispatcher|null
+     */
+    public function getDispatcher();
+
+    /**
+     * Set RouteParser
+     *
+     * @param RouteParser $routeParser
+     *
+     * @return RouterInterface
+     */
+    public function setRouteParser(RouteParser $routeParser) : RouterInterface;
+
+    /**
+     * Get Route Parser
+     *
+     * @return RouteParser
+     */
+    public function getRouteParser() : RouteParser;
 }
