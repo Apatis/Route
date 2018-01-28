@@ -227,6 +227,12 @@ class Route extends RoutAble implements RouteInterface
             $callable = $this->callbackResolver->resolve($callable);
         }
 
+        if (! is_callable($callable)) {
+            throw new \RuntimeException(
+                'Route callback is not callable'
+            );
+        }
+
         $handler     = $this->routeHandler;
         $newResponse = $handler(
             $callable,
